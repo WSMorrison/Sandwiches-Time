@@ -80,11 +80,19 @@ def calculate_surplus_data(sales_row):
     -Positive indicates waste
     -Negative meant staff had to make up difference
     """
-    print('Calculating suprlus data\n')
+    print('Calculating surplus data\n')
     stock = SHEET.worksheet('stock').get_all_values()
     # pprint(stock)
     stock_row = stock[-1]
-    print(stock_row)
+    # print(f'Stock row: {stock_row}')
+    # print(f'Sales row: {sales_row}')
+
+    surplus_data = []
+    for stock, sales in zip(stock_row, sales_row):
+        surplus = int(stock) - sales
+        surplus_data.append(surplus)
+    # print(surplus_data)
+    return surplus_data
 
 
 def main():
@@ -94,7 +102,7 @@ def main():
     data = get_sales_data()
     sales_data = [int(num) for num in data]
     update_sales_worksheet(sales_data)
-    calculate_surplus_data(sales_data)
+    new_surplus_data = calculate_surplus_data(sales_data)
 
 
 print('/nWelcome to the Love Sandwiches Automated Analysis Progman/n')
